@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+
+	<session-factory>
+
+		<!-- Database connection settings -->
+		<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="connection.url">jdbc:mysql://127.0.0.1:3306/vendaproduto</property>
+		<property name="connection.username">root</property>
+		<property name="connection.password">123456</property>
+
+		<!-- pool de conexões -->
+		<property name="connection.pool_size">1</property>
+
+		<!-- SQL dialect -->
+		<property name="dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
+
+		<!-- Gerenciamento do contexto da sessão -->
+		<property name="current_session_context_class">thread</property>
+
+		<!-- cache de segundo nível -->
+		<property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
+
+		<!-- Echo all executed SQL to stdout | Mostra SQL gerada -->
+		<property name="show_sql">true</property>
+
+		<!-- Drop and re-create the database schema on startup | Cria a tabela do banco de dados -->
+		
+<!--    <property name="hbm2ddl.auto">create</property> 1º                                -->
+		<property name="hbm2ddl.auto">validate</property> <!-- create/update/validate 2 º -->
+
+        <!-- Mapeamento das entidades -->
+        
+        <mapping class="br.com.vendaProduto.domain.Produto"/>
+		<mapping class="br.com.vendaProduto.domain.Cupom"/>
+		<mapping class="br.com.vendaProduto.domain.Item_Cupom"/>
+
+
+	</session-factory>
+
+</hibernate-configuration>

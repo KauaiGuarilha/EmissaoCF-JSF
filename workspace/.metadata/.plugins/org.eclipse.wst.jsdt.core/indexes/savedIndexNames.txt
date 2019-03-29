@@ -1,0 +1,8 @@
+INDEX VERSION 1.4+C:\Users\Porteiro\Documents\arquivos\Alterdata\DSN Shop - Programador JAVA\Projeto_Backend\workspace\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+418131179.index
+2051202027.index
+2988238565.index
+3482659376.index
+353396084.index
+1591040927.index
+3399929287.index

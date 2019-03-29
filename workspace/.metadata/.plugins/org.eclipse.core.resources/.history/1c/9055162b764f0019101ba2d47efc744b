@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Produtos</title>
+</h:head>
+<h:body>
+    <p:growl id="mensagem"/>
+	<h:form id="formList">
+		<p:panel header="Produtos Cadastrados">
+			<p:dataTable id="tabela" emptyMessage="Nenhum registro encontrado" paginator="true" value="#{produtoBean.produtos}" var="produto" rows="8">
+				<f:facet name="header">
+					<p:commandButton value="Novo Produto" oncomplete="PF('dialogo').show();" actionListener="#{produtoBean.novo}" update=":formCadProd:painel"/>
+				</f:facet>
+				
+				<p:column headerText="Descrição" sortBy="#{produto.nome}" filterBy="#{produto.nome}">
+				   <h:outputText value="#{produto.nome}"/>
+				</p:column>
+				
+				<p:column headerText="Valor" sortBy="#{produto.valor}">
+				    <h:outputText value="#{produto.valor}">
+				        <f:convertNumber locale="pt_BR" minFractionDigits="2"/><!-- Conversão de Ponto para Vírgula -->
+				    </h:outputText>
+				</p:column>
+				   
+				<p:column headerText="Opções">
+				    <p:commandButton icon="ui-icon-trash" actionListener="#{produtoBean.exclusao}" update=":mensagem :formList:tabela">
+				          <p:confirm header="Confirmação" message="Deseja Excluir o Produto ?" icon="ui-icon-alert"/>
+				          <f:attribute name="produtoSelecionado" value="#{produto}"/>
+				    </p:commandButton>
+				    
+				    <p:commandButton icon="ui-icon-pencil" actionListener="#{produtoBean.alteracao}" update=":formList:tabela :formCadProd:painel" oncomplete="PF('dialogo').show();">
+				           
+				           <f:attribute name="produtoSelecionado" value="#{produto}"/>
+				    </p:commandButton>
+				
+				</p:column>
+
+			</p:dataTable>
+			
+			    <p:confirmDialog global="true">
+				   <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+				   <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+				</p:confirmDialog>			
+				
+		</p:panel>
+	</h:form>
+
+	<p:dialog header="Cadastro de Produtos" widgetVar="dialogo" draggable="false" resizable="false" modal="true" closable="false">
+		<h:form id="formCadProd">
+			<h:panelGrid id="painel" columns="2">
+			
+				<p:outputLabel for="descricao" value="Descrição: " />
+				<p:inputText id="descricao" maxlength="100" size="30" value="#{produtoBean.produto.nome}" required="true"
+					requiredMessage="O campo 'Descrição' é obrigatório" />
+				
+				<p:outputLabel for="valor" value="Valor: " />
+				<p:inputText id="valor" maxlength="7" size="4" value="#{produtoBean.produto.valor}" required="true"
+					requiredMessage="O campo 'Valor' é obrigatório" validatorMessage="Informe um valor entre 0,01 e 9999,99 no campo 'Valor'">					
+					<f:validateDoubleRange minimum="0.01" maximum="9999.99"/>
+					<f:convertNumber locale="pt_BR" minFractionDigits="2"/>
+				</p:inputText>
+		
+           </h:panelGrid>
+           
+           <h:panelGrid columns="2">
+           
+				<p:commandButton value="Salvar"  actionListener="#{produtoBean.salvar}" update=":mensagem :formCadProd:painel :formList:tabela"/>
+				<p:commandButton value="Fechar" oncomplete="PF('dialogo').hide();" />
+				
+			</h:panelGrid>	
+			
+		</h:form>
+	</p:dialog>
+</h:body>
+</html>
